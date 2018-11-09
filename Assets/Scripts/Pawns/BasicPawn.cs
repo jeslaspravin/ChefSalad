@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 [assembly: InternalsVisibleTo("BasicController")]
+[assembly: InternalsVisibleTo("BasicItem")]
 public class BasicPawn : MonoBehaviour {
 
     internal BasicController controller;

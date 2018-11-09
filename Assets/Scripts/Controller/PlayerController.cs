@@ -19,19 +19,23 @@ public struct PlayerUData
 public class PlayerController : BasicController {
 
     private InputManager inputMngr;
+
+    private Inventory playerInventory;
     
     public InputManager GetInputManager
     {
         get { return inputMngr; }
     }
 
+    public Inventory PlayerInventory
+    {
+        get { return playerInventory; }
+    }
+
     public string playerName;
     private string playerInputPrefix;
 
 
-    private Vector3 currentMovementVelocity = Vector3.zero;
-    private Vector3 currentPendingRotation = Vector3.zero;
-    private int moveRefCount = 0, rotRefCount = 0;
 
     public string InputPrefix
     {
@@ -57,41 +61,16 @@ public class PlayerController : BasicController {
 
     // Use this for initialization
     void Start () {
+        playerInventory = GetComponent<Inventory>();
 	}
 	
 	// Update is called once per frame
 	public override void Update () {
-        base.Update();
     }
 
     private void OnDestroy()
     {
         inputMngr.onInputProcessed -= processMovement;
-    }
-
-    public void processMovement()
-    {
-        if (controlledPawn != null)
-        {
-            transform.position = controlledPawn.transform.position;
-            Rigidbody2D rigidBody = controlledPawn.GetComponent<Rigidbody2D>();
-            currentMovementVelocity.Normalize();
-            rigidBody.velocity = currentMovementVelocity * movementSpeed;
-            moveRefCount = 0;
-            if (alwaysFaceMovingDirection)
-            {
-                float angleToRot = rigidBody.velocity.magnitude > 0 ? -90+Vector3.SignedAngle(controlledPawn.transform.right, rigidBody.velocity, Vector3.forward)
-                    : 0;
-                controlledPawn.transform.Rotate(Vector3.forward, angleToRot);
-                transform.Rotate(Vector3.forward, angleToRot);
-            }
-            else
-            {
-                transform.Rotate(currentPendingRotation, Space.Self);
-                controlledPawn.transform.Rotate(Vector3.forward, currentPendingRotation.z);
-            }
-            rotRefCount = 0;
-        }
     }
 
     public override void controlPawn(BasicPawn pawn)
@@ -120,27 +99,14 @@ public class PlayerController : BasicController {
         }
     }
 
-
-    public virtual void addMovementInput(Vector3 velocity)
+    public void setInputActive(bool isActive)
     {
-        if (moveRefCount == 0)
-            currentMovementVelocity = velocity;
+        string guidStr = guid.ToString();
+        if (isActive)
+            inputMngr.resumeInputSet(guidStr);
         else
-        {
-            currentMovementVelocity += velocity;
-        }
-        ++moveRefCount;
+            inputMngr.pauseInputSet(guidStr);
     }
 
-    public virtual void addRotation(Vector3 rotation)
-    {
-        if (rotRefCount == 0)
-            currentPendingRotation = rotation;
-        else
-        {
-            currentPendingRotation += rotation;
-        }
-        ++rotRefCount;
-    }
 
 }

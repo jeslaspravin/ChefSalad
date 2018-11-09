@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour {
     public GameObject playerPrefab;
     // Prefab used to spawn player controller
     public GameObject playerControllerPrefab;
+
+    public List<VegetableData> vegetableDataAssets;
+
+    public static GameManager manager;
     
     private Dictionary<Guid, BasicController> playersList=new Dictionary<Guid, BasicController>();
 
@@ -18,16 +22,24 @@ public class GameManager : MonoBehaviour {
         public string playerName;
         public string playerInputPrefix;
         public Color spriteColor;
+
+        public Stove stove;
+        public Transform spawnTransform;
     }
 
     public List<PlayerSpawnData> playersToSpawn;
 
     private void Awake()
     {
+        if (manager != null)
+            Destroy(this);
+
+        manager = this;
+
         foreach(PlayerSpawnData psd in playersToSpawn)
         {
             // TODO : Change it to spawn at spawn locations
-            BasicPawn pawn = ((GameObject)Instantiate(playerPrefab)).GetComponent<BasicPawn>();
+            BasicPawn pawn = ((GameObject)Instantiate(playerPrefab,psd.spawnTransform.position,Quaternion.identity)).GetComponent<BasicPawn>();
             if (!pawn)
                 throw new Exception("Add proper Pawn Prefab in game manager");
             pawn.name = psd.playerName;
@@ -46,6 +58,8 @@ public class GameManager : MonoBehaviour {
             controller.playerName = psd.playerName;
             controller.controlPawn(pawn);
             controller.setupInputs(inputManager);
+
+            //psd.stove.userId = controller.GetID;
         }
     }
 
