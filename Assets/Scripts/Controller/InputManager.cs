@@ -28,6 +28,11 @@ public class InputManager : MonoBehaviour {
             callbacks.Add(firstCallback);
         }
 
+        public void setIsActiveSet(bool active)
+        {
+            bIsActiveSet = active;
+        }
+
         //public override bool Equals(object obj)
         //{
         //    return obj is InputSetStruct && this == (InputSetStruct)obj;
@@ -63,26 +68,25 @@ public class InputManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        foreach (KeyValuePair<string, InputSetStruct> entry in inputSet)
+        foreach (string key in inputSet.Keys)
         {
-            for(int i=0;i< entry.Value.callbacks.Count;i++)
+            for(int i=0;i< inputSet[key].callbacks.Count;i++)
             {
-                entry.Value.callbacks[i]((!bGlobalPause || entry.Value.bIsActiveSet)? Input.GetAxis(entry.Value.inputName[i]):0);
+                inputSet[key].callbacks[i]((!bGlobalPause && inputSet[key].bIsActiveSet)? Input.GetAxis(inputSet[key].inputName[i]):0);
             }
         }
-        onInputProcessed.Invoke();
+        if(onInputProcessed!=null)
+            onInputProcessed.Invoke();
     }
 
     public void addToListenerSet(string setName,string inputName,Action<float> methodCallback)
     {
-        InputSetStruct set = new InputSetStruct(inputName, methodCallback);
+        InputSetStruct set = new InputSetStruct(inputName, methodCallback); 
 
-        InputSetStruct availableSet = new InputSetStruct();
-
-        if (inputSet.TryGetValue(setName,out availableSet))
+        if (inputSet.ContainsKey(setName))
         {
-            availableSet.inputName.Add(inputName);
-            availableSet.callbacks.Add(methodCallback);
+            inputSet[setName].inputName.Add(inputName);
+            inputSet[setName].callbacks.Add(methodCallback);
         }
         else
         {
@@ -95,14 +99,13 @@ public class InputManager : MonoBehaviour {
     }
     public bool stopListening(string setName,string inputName)
     {
-        InputSetStruct availableSet = new InputSetStruct();
-        if (inputSet.TryGetValue(setName, out availableSet))
+        if (inputSet.ContainsKey(setName))
         {
-            int index=availableSet.inputName.FindIndex((string val)=> { return val.Equals(inputName); });
+            int index= inputSet[setName].inputName.FindIndex((string val)=> { return val.Equals(inputName); });
             if(index != -1)
             {
-                availableSet.inputName.RemoveAt(index);
-                availableSet.callbacks.RemoveAt(index);
+                inputSet[setName].inputName.RemoveAt(index);
+                inputSet[setName].callbacks.RemoveAt(index);
             }
         }
         return false;
@@ -129,6 +132,7 @@ public class InputManager : MonoBehaviour {
         if (inputSet.TryGetValue(setName, out availableSet))
         {
             availableSet.bIsActiveSet = false;
+            inputSet[setName] = availableSet;
             return true;
         }
         return false;
@@ -140,6 +144,7 @@ public class InputManager : MonoBehaviour {
         if (inputSet.TryGetValue(setName, out availableSet))
         {
             availableSet.bIsActiveSet = true;
+            inputSet[setName] = availableSet;
             return true;
         }
         return false;

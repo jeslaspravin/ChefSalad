@@ -59,8 +59,13 @@ public class GameManager : MonoBehaviour {
             controller.controlPawn(pawn);
             controller.setupInputs(inputManager);
 
-            //psd.stove.userId = controller.GetID;
+            psd.stove.userId = controller.GetID;
         }
+    }
+
+    public static VegetableData getVegetableData(int vegetable)
+    {
+        return manager.vegetableDataAssets.Find((VegetableData data) => { return data.vegetableMask == (Vegies)vegetable; });
     }
 
     // Use this for initialization

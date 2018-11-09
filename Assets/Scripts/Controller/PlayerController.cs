@@ -21,6 +21,8 @@ public class PlayerController : BasicController {
     private InputManager inputMngr;
 
     private Inventory playerInventory;
+
+    private PlayerState playerState;
     
     public InputManager GetInputManager
     {
@@ -62,10 +64,16 @@ public class PlayerController : BasicController {
     // Use this for initialization
     void Start () {
         playerInventory = GetComponent<Inventory>();
+        playerState = GetComponent<PlayerState>();
 	}
 	
 	// Update is called once per frame
 	public override void Update () {
+    }
+
+    public override float getMovementSpeed()
+    {
+        return playerState.CurrentMovementSpeed;
     }
 
     private void OnDestroy()

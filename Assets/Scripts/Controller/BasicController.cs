@@ -6,6 +6,7 @@ public class BasicController : MonoBehaviour {
 
     protected BasicPawn controlledPawn;
 
+    // Will be used by NPC controller only
     public float movementSpeed;
 
     private Vector3 currentMovementVelocity = Vector3.zero;
@@ -45,6 +46,11 @@ public class BasicController : MonoBehaviour {
 	public virtual void Update () {
         processMovement();
     }
+
+    public virtual float getMovementSpeed()
+    {
+        return movementSpeed;
+    }
     public void processMovement()
     {
         if (controlledPawn != null)
@@ -52,7 +58,7 @@ public class BasicController : MonoBehaviour {
             transform.position = controlledPawn.transform.position;
             Rigidbody2D rigidBody = controlledPawn.GetComponent<Rigidbody2D>();
             currentMovementVelocity.Normalize();
-            rigidBody.velocity = currentMovementVelocity * movementSpeed;
+            rigidBody.velocity = currentMovementVelocity * getMovementSpeed();
             moveRefCount = 0;
             if (alwaysFaceMovingDirection)
             {

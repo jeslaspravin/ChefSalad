@@ -17,6 +17,10 @@ public class Inventory : MonoBehaviour {
     {
         return stackItems.Dequeue();
     }
+    public int peekNextItem()
+    {
+        return stackItems.Peek();
+    }
 
     public bool hasAnyItem()
     {
