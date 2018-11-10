@@ -28,7 +28,17 @@ public class CustomerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        returningNpcControllers.RemoveAll((NpcController controller) =>
+        {
+            if((controller.MoveTo-controller.GetControlledPawn.transform.position).magnitude<0.1f)
+            {
+                npcsAvailable.Enqueue((NpcPawn)controller.GetControlledPawn);
+                controller.releasePawn();
+                controller.IsMobile = false;
+                return true;
+            }
+            return false;
+        });
 	}
 
     private void onNpcReturning(float score, float timeRatio, List<Guid> playerIds, NpcController npcController)
@@ -75,14 +85,17 @@ public class CustomerManager : MonoBehaviour {
                 {
                     salad |= choosen;
                     vegData=GameManager.getVegetableData(choosen);
-                    controller.attributes.maxWaitTime += (int)(vegData.preparationTime + (vegData.preparationTime * 0.25f));
-                    continue;
+                    controller.attributes.maxWaitTime += (int)(vegData.preparationTime + (vegData.preparationTime * 4f));
                 }
                 else
                 {
                     choosen = 0;
+                    trial++;
                 }
             }
+
+            if (choosen != 0)
+                continue;
 
             pow = UnityEngine.Random.Range(0, (int)Vegies.count);
             choosen = (int)Mathf.Pow(2, pow);
@@ -93,20 +106,20 @@ public class CustomerManager : MonoBehaviour {
                 choosen= (int)Mathf.Pow(2, pow % (int)Vegies.count);
             }
             vegData = GameManager.getVegetableData(choosen);
-            controller.attributes.maxWaitTime += (int)(vegData.preparationTime + (vegData.preparationTime * 0.25f));
+            controller.attributes.maxWaitTime += (int)(vegData.preparationTime + (vegData.preparationTime * 4f));
             salad |= choosen;
         }
         controller.attributes.salad = salad;
 
         controller.controlPawn(pawn);
-        returningNpcControllers.Add(controller);
     }
 
     private void spawnNpcPawns()
     {
+        Vector3 location = new Vector3(1000, 1000, -2);
         for (int i = 0; i < 10; i++)
         {
-            GameObject go = Instantiate(npcPrefab);
+            GameObject go = Instantiate(npcPrefab, location,Quaternion.identity);
             go.name = "NPC" + (i + 1);
             npcsAvailable.Enqueue(go.GetComponent<NpcPawn>());
         }

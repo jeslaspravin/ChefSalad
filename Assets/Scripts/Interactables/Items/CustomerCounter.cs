@@ -59,7 +59,7 @@ public class CustomerCounter : UsableItem {
 
             if ((waitingController.attributes.maxWaitTime-timeConsumed)<=0)
             {
-                waitOver(penaltyOnFailure);
+                waitOver(-penaltyOnFailure);
             }
         }
 	}
@@ -107,7 +107,7 @@ public class CustomerCounter : UsableItem {
             // Make controller stop
             waitingController.IsMobile = false;
             // Hard coded value to make npc go off screen after waiting
-            waitingController.MoveTo = new Vector3(transform.position.x, transform.position.y + 7,
+            waitingController.MoveTo = new Vector3(transform.parent.position.x, transform.parent.position.y + 7,
                 waitingController.GetControlledPawn.transform.position.z);
 
             int itemMask = waitingController.attributes.salad;
@@ -124,12 +124,12 @@ public class CustomerCounter : UsableItem {
                 itemMask >>= 1;
             }
             scoreOnSuccess += scoreOnSuccess*waitingController.attributes.scoreMultiplier;
-            penaltyOnFailure += scoreOnSuccess*waitingController.attributes.scoreMultiplier;
+            penaltyOnFailure += waitingController.attributes.scoreMultiplier;
         }
         else
         {
             Player player = (Player)pawn;
-            int salad=player.PlayerInventory.getFirstItem(false);
+            int salad=player.PlayerInventory.getFirstItem(false) & (~(int)Vegies.oneItemSaladHandle);
 #if GAME_DEBUG
             Debug.Log("Player Serving salad "+salad+" Customer requested salad "+waitingController.attributes.salad);
 #endif

@@ -37,6 +37,10 @@ public class BasicController : MonoBehaviour {
 
     public virtual void releasePawn()
     {
+        // Reset the last set simulation velocity before releasing
+        currentMovementVelocity = Vector3.zero;
+        processMovement();
+
         controlledPawn.controller = null;
         controlledPawn = null;
     }
