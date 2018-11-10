@@ -83,7 +83,9 @@ public class Stove : RestrictedUsageItem
         currentLockedPlayer = player;
 
         if (currentLockedPlayer.PlayerInventory.hasAnyItem())
+        {
             StartCoroutine(startCooking());
+        }
         else
         {
             currentLockedPlayer.PlayerInventory.addItem(currentStack);
@@ -123,7 +125,7 @@ public class Stove : RestrictedUsageItem
         {
             if ((stoveStandingSpot.position - currentLockedPlayer.transform.position).magnitude > 0.02)
             {
-                currentLockedPlayer.transform.position += (stoveStandingSpot.position - currentLockedPlayer.transform.position) 
+                currentLockedPlayer.transform.position += 2*(stoveStandingSpot.position - currentLockedPlayer.transform.position) 
                     * Time.deltaTime;
                 currentLockedPlayer.transform.rotation = stoveStandingSpot.rotation;
             }

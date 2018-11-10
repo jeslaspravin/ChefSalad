@@ -36,7 +36,7 @@ public class PlayerState : MonoBehaviour {
         get
         {
             int val=(int)(initialTimerDuration - timeConsumed);
-            return Mathf.Clamp(val, 0, val);
+            return val>0?val:0;
         }
     }
 

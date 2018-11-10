@@ -14,3 +14,5 @@ MonoBehaviour:
   vegetableMask: 16
   vegTexture: {fileID: 21300014, guid: 44fae03c08194c245ae9e3a61d2de555, type: 3}
   preparationTime: 1.5
+  scoreCostFactor: 0.5
+  scoreReward: 2

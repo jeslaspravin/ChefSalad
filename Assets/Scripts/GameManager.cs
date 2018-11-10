@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
 
     public List<VegetableData> vegetableDataAssets;
 
+    public TrashCan trashCan;
+
     public static GameManager manager;
     
     private Dictionary<Guid, BasicController> playersList=new Dictionary<Guid, BasicController>();
@@ -37,6 +39,8 @@ public class GameManager : MonoBehaviour {
             Destroy(this);
 
         manager = this;
+
+        trashCan.onItemTrashed += itemTrashed;
 
         foreach(PlayerSpawnData psd in playersToSpawn)
         {
@@ -74,6 +78,14 @@ public class GameManager : MonoBehaviour {
         return manager.vegetableDataAssets.Find((VegetableData data) => { return data.vegetableMask == (Vegies)vegetable; });
     }
 
+    private void itemTrashed(Guid guid,float cost)
+    {
+        int newCost = (int)-cost;
+        Debug.Log(guid.ToString() + " Cost "+ newCost);
+        PlayerController controller = (PlayerController)(playersList[guid]);
+        controller.PlayerState.addScore(newCost>0?0:newCost);
+    }
+
     // Use this for initialization
     void Start () {
 		
@@ -83,4 +95,10 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    void OnDestroy()
+    {
+        if (trashCan != null)
+            trashCan.onItemTrashed -= itemTrashed;
+    }
 }

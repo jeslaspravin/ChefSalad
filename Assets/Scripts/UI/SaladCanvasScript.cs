@@ -83,9 +83,9 @@ public class SaladCanvasScript : MonoBehaviour {
 
     public void clearSalad()
     {
-        for(int i=0;i< itemsContainerWidget.transform.childCount;i++)
+        while(itemsContainerWidget.transform.childCount>0)
         {
-            GameObject go=itemsContainerWidget.transform.GetChild(i).gameObject;
+            GameObject go=itemsContainerWidget.transform.GetChild(0).gameObject;
             go.transform.SetParent(null);
             items.Enqueue(go.GetComponent<SaladIngredientCanvasScript>());
         }
