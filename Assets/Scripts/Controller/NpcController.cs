@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct NpcAttributes
+{
+    public int salad;
+    public int maxWaitTime;
+    // Multiplier that will be multiplied to score calculated from salad recipe
+    public float scoreMultiplier;
+    // Multiplier to rate at which time drops when incorrect salad is served
+    public float failureTimeMultiplier;
+}
+
 public class NpcController : BasicController {
 
     public Transform counterTransform;
@@ -21,8 +32,7 @@ public class NpcController : BasicController {
         set { moveToLocation = value; }
     }
 
-    public int salad=0;
-    public int maxWaitTime = 0;
+    public NpcAttributes attributes;
 
     // Use this for initialization
 	void Start () {

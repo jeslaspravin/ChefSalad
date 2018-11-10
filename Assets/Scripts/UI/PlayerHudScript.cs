@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ public class PlayerHudScript : MonoBehaviour {
     public GameObject inventoryPanel;
     public Text scoreTextBox;
     public Text timeTextBox;
+
+    public bool reverseInventory=false;
 
     public PlayerState PlayerState
     {
@@ -64,6 +67,9 @@ public class PlayerHudScript : MonoBehaviour {
             go.transform.SetParent(null);
             Destroy(go);
         }
+
+        if(reverseInventory)
+            Array.Reverse(items);
 
         foreach(int item in items)
         {            

@@ -69,7 +69,9 @@ public class Stove : RestrictedUsageItem
         {
             int veg = player.PlayerInventory.peekNextItem();
             // Only if non repeating ingredients are allowed
+#if GAME_DEBUG
             Debug.Log("Checking if chef is adding same ingredient to salad");
+#endif
             return (currentStack & veg) == 0;
         }
         else
@@ -162,7 +164,9 @@ public class Stove : RestrictedUsageItem
     private void ingredientPrepared(int vegMask)
     {
         currentStack |= vegMask;
+#if GAME_DEBUG
         Debug.Log("Chopped Vegetable " + vegMask + " Salad " + currentStack);
+#endif
         if(ingredientPreparedEvent!= null)
             ingredientPreparedEvent.Invoke(vegMask, currentStack);
 
@@ -171,7 +175,9 @@ public class Stove : RestrictedUsageItem
 
     private void saladPickedUp()
     {
+#if GAME_DEBUG
         Debug.Log("Picked up salad " + currentStack);
+#endif
         if (saladPickedUpEvent != null)
             saladPickedUpEvent.Invoke(currentStack);
 

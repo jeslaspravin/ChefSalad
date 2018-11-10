@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
     // Prefab used to spawn player controller
     public GameObject playerControllerPrefab;
 
+    public GameObject npcControllerPrefab;
+
     public List<VegetableData> vegetableDataAssets;
 
     public TrashCan trashCan;
@@ -32,6 +34,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public List<PlayerSpawnData> playersToSpawn;
+
+    public List<CustomerCounter> customerCounters;
+    private List<BasicController> npcControllers=new List<BasicController>();
 
     private void Awake()
     {
@@ -71,6 +76,15 @@ public class GameManager : MonoBehaviour {
             psd.stove.userId = psd.dish.userId = controller.GetID;
             
         }
+
+        foreach(CustomerCounter counter in customerCounters)
+        {
+            GameObject go = Instantiate(npcControllerPrefab);
+            go.name = counter.name + "NpcController";
+            BasicController controller = go.GetComponent<BasicController>();
+            npcControllers.Add(controller);
+            counter.onCustomerLeaving += customerLeft;
+        }
     }
 
     public static VegetableData getVegetableData(int vegetable)
@@ -81,9 +95,47 @@ public class GameManager : MonoBehaviour {
     private void itemTrashed(Guid guid,float cost)
     {
         int newCost = (int)-cost;
+#if GAME_DEBUG
         Debug.Log(guid.ToString() + " Cost "+ newCost);
+#endif
         PlayerController controller = (PlayerController)(playersList[guid]);
         controller.PlayerState.addScore(newCost>0?0:newCost);
+    }
+
+    private void customerLeft(float score,float timeRatio,List<Guid> playerIds)
+    {
+        if(playerIds.Count==0)
+        {
+            // Customer left after time out case
+            foreach(KeyValuePair<Guid,BasicController> entry in playersList)
+            {
+                pushScoreToPlayer(score, entry.Value);
+            }
+        }else if(score>0)
+        {
+            // Successfully served case
+            BasicController controller = playersList[playerIds[0]];
+            if(timeRatio>=0.7)
+            {
+                // TODO : Spawn collectible to player
+            }
+            pushScoreToPlayer(score, controller);
+        }else
+        {
+            // Failed with wrong combination,2x penalty
+            foreach(Guid guid in playerIds)
+            {
+                BasicController controller = playersList[guid];
+                pushScoreToPlayer(2 * score, controller);
+            }
+        }
+    }
+
+    private void pushScoreToPlayer(float score,BasicController controller)
+    {
+        PlayerController playerController = (PlayerController)controller;
+        playerController.PlayerState.addScore((int)score);
+        // TODO : Spawn score pop in player location
     }
 
     // Use this for initialization
@@ -100,5 +152,10 @@ public class GameManager : MonoBehaviour {
     {
         if (trashCan != null)
             trashCan.onItemTrashed -= itemTrashed;
+
+        foreach (CustomerCounter counter in customerCounters)
+        {
+            counter.onCustomerLeaving -= customerLeft;
+        }
     }
 }
