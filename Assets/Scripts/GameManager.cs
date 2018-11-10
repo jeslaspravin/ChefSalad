@@ -23,8 +23,10 @@ public class GameManager : MonoBehaviour {
         public string playerInputPrefix;
         public Color spriteColor;
 
-        public Stove stove;
+        public RestrictedUsageItem stove;
+        public RestrictedUsageItem dish;
         public Transform spawnTransform;
+        public PlayerHudScript playerHud;
     }
 
     public List<PlayerSpawnData> playersToSpawn;
@@ -59,7 +61,11 @@ public class GameManager : MonoBehaviour {
             controller.controlPawn(pawn);
             controller.setupInputs(inputManager);
 
-            psd.stove.userId = controller.GetID;
+            psd.playerHud.PlayerInventory = controller.PlayerInventory;
+            psd.playerHud.PlayerState = controller.PlayerState;
+
+            psd.stove.userId = psd.dish.userId = controller.GetID;
+            
         }
     }
 

@@ -32,6 +32,8 @@ public class Stove : RestrictedUsageItem
 
     public Transform stoveStandingSpot;
 
+    public SaladCanvasScript saladCanvas;
+
     private int currentStack=0;
 
     private float prepareTimeLeft=0;
@@ -39,6 +41,16 @@ public class Stove : RestrictedUsageItem
     private VegetableData preparingVegData;
 
     private Player currentLockedPlayer;
+
+    void Start()
+    {
+        if (saladCanvas == null)
+            throw new Exception("Missing Salad Canvas!");
+
+        saladCanvas.gameObject.SetActive(false);
+        saladCanvas.IsProgressVisible = new SaladCanvasScript.ProgressVisibilityDelegate(isSaladBeingPrepared);
+        saladCanvas.ProgressionRatio = new SaladCanvasScript.ProgressionDelegate(getCurrentProgress);
+    }
 
     private void resetData()
     {
@@ -50,7 +62,18 @@ public class Stove : RestrictedUsageItem
 
     public override bool canInteract(GameObject interactor)
     {
-        return base.canInteract(interactor) && (currentStack != 0 || interactor.GetComponent<Player>().PlayerInventory.hasAnyItem());
+        if (!base.canInteract(interactor))
+            return false;
+        Player player = interactor.GetComponent<Player>();
+        if (player.PlayerInventory.hasAnyItem())
+        {
+            int veg = player.PlayerInventory.peekNextItem();
+            // Only if non repeating ingredients are allowed
+            Debug.Log("Checking if chef is adding same ingredient to salad");
+            return (currentStack & veg) == 0;
+        }
+        else
+            return currentStack != 0;
     }
 
     public override void interact(GameObject interactor)
@@ -70,6 +93,11 @@ public class Stove : RestrictedUsageItem
         }
     }
 
+    public bool isSaladBeingPrepared()
+    {
+        return currentLockedPlayer != null;
+    }
+
     IEnumerator startCooking()
     {
         int veg = currentLockedPlayer.PlayerInventory.peekNextItem();
@@ -79,7 +107,13 @@ public class Stove : RestrictedUsageItem
             yield break;
         }
 
+        if (!saladCanvas.gameObject.activeSelf)
+        {
+            saladCanvas.gameObject.SetActive(true);
+        }
+
         veg = currentLockedPlayer.PlayerInventory.getNextItem();
+        currentStack |= (int)Vegies.oneItemSaladHandle;
         preparingVegData = GameManager.getVegetableData(veg);
         prepareTimeLeft = preparingVegData.preparationTime;
                     
@@ -99,6 +133,13 @@ public class Stove : RestrictedUsageItem
                 ingredientPrepared(veg);
                 if (currentLockedPlayer.PlayerInventory.hasAnyItem())
                 {
+                    veg = currentLockedPlayer.PlayerInventory.peekNextItem();
+
+                    // if next ingredient is already added then stop cooking
+                    if ((currentStack & veg) != 0)
+                    {
+                        break;
+                    }
                     veg = currentLockedPlayer.PlayerInventory.getNextItem();
                     preparingVegData = GameManager.getVegetableData(veg);
                     prepareTimeLeft = preparingVegData.preparationTime;                    
@@ -122,6 +163,8 @@ public class Stove : RestrictedUsageItem
         Debug.Log("Chopped Vegetable " + vegMask + " Salad " + currentStack);
         if(ingredientPreparedEvent!= null)
             ingredientPreparedEvent.Invoke(vegMask, currentStack);
+
+        saladCanvas.addItem(GameManager.getVegetableData(vegMask));
     }
 
     private void saladPickedUp()
@@ -129,5 +172,8 @@ public class Stove : RestrictedUsageItem
         Debug.Log("Picked up salad " + currentStack);
         if (saladPickedUpEvent != null)
             saladPickedUpEvent.Invoke(currentStack);
+
+        saladCanvas.clearSalad();
+        saladCanvas.gameObject.SetActive(false);
     }
 }

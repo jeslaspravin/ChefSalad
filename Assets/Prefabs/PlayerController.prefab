@@ -81,3 +81,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialTimerDuration: 300
   initialMovementSpeed: 10
+  speedBuffSaturationPt: 10

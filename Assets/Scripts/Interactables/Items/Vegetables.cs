@@ -11,7 +11,8 @@ public enum Vegies
     potato = 4,
     onion = 8,
     beet = 16,
-    chilli = 32
+    chilli = 32,
+    oneItemSaladHandle=64// Handling to ensure that salad with one vegetable is considered as salad,Not vegie
 }
 
 public class Vegetables : CarriableItem {

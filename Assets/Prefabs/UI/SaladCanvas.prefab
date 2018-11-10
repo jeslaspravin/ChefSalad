@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 223499988799229814}
   - component: {fileID: 114251124973507864}
   - component: {fileID: 114301501147228050}
+  - component: {fileID: 114203794489212040}
   m_Layer: 5
   m_Name: SaladCanvas
   m_TagString: Untagged
@@ -144,6 +145,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114203794489212040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1929096058903852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90cad8de0fe22c498d399452761ad2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsContainerWidget: {fileID: 1378067255181014}
+  vegChoppingProgressWidget: {fileID: 114648941752323024}
+  itemWidgetPrefab: {fileID: 1868718922696694, guid: 8a0e4712b3d7e4943b3f77195679dfd3,
+    type: 2}
 --- !u!114 &114251124973507864
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -323,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -345,7 +361,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 114395385597457058}
   m_FillRect: {fileID: 224815456932451272}
   m_HandleRect: {fileID: 224382855580632368}

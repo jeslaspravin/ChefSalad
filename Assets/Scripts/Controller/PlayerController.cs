@@ -15,7 +15,8 @@ public struct PlayerUData
     }
 }
 
-
+[RequireComponent(typeof(Inventory))]
+[RequireComponent(typeof(PlayerState))]
 public class PlayerController : BasicController {
 
     private InputManager inputMngr;
@@ -23,6 +24,11 @@ public class PlayerController : BasicController {
     private Inventory playerInventory;
 
     private PlayerState playerState;
+
+    public PlayerState PlayerState
+    {
+        get { return playerState; }
+    }
     
     public InputManager GetInputManager
     {
@@ -59,12 +65,12 @@ public class PlayerController : BasicController {
     private void Awake()
     {
         guid = Guid.NewGuid();
+        playerInventory = GetComponent<Inventory>();
+        playerState = GetComponent<PlayerState>();
     }
 
     // Use this for initialization
     void Start () {
-        playerInventory = GetComponent<Inventory>();
-        playerState = GetComponent<PlayerState>();
 	}
 	
 	// Update is called once per frame
