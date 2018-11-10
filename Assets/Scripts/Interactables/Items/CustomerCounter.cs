@@ -23,7 +23,7 @@ public class CustomerCounter : UsableItem {
 
     private List<Guid> playerIds=new List<Guid>();
 
-    public delegate void CustomerLeavingDelegate(float score, float timeRatio, List<Guid> playerIds);
+    public delegate void CustomerLeavingDelegate(float score, float timeRatio, List<Guid> playerIds,NpcController controller);
 
     public event CustomerLeavingDelegate onCustomerLeaving;
 
@@ -87,7 +87,7 @@ public class CustomerCounter : UsableItem {
     public void waitOver(float score)
     {
         if (onCustomerLeaving != null)
-            onCustomerLeaving.Invoke(score, timeConsumed / waitingController.attributes.maxWaitTime, playerIds);
+            onCustomerLeaving.Invoke(score, timeConsumed / waitingController.attributes.maxWaitTime, playerIds,waitingController);
         progressionBar.gameObject.SetActive(false);
         waitingController.IsMobile = true;
         waitingController = null;
@@ -107,7 +107,8 @@ public class CustomerCounter : UsableItem {
             // Make controller stop
             waitingController.IsMobile = false;
             // Hard coded value to make npc go off screen after waiting
-            waitingController.MoveTo = transform.position + new Vector3(0, 3, 0);
+            waitingController.MoveTo = new Vector3(transform.position.x, transform.position.y + 7,
+                waitingController.GetControlledPawn.transform.position.z);
 
             int itemMask = waitingController.attributes.salad;
             for (int i = 0; i < (int)Vegies.count; i++)
@@ -122,8 +123,8 @@ public class CustomerCounter : UsableItem {
                 }
                 itemMask >>= 1;
             }
-            scoreOnSuccess *= waitingController.attributes.scoreMultiplier;
-            penaltyOnFailure *= waitingController.attributes.scoreMultiplier;
+            scoreOnSuccess += scoreOnSuccess*waitingController.attributes.scoreMultiplier;
+            penaltyOnFailure += scoreOnSuccess*waitingController.attributes.scoreMultiplier;
         }
         else
         {

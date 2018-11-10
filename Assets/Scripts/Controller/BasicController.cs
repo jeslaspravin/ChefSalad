@@ -18,6 +18,10 @@ public class BasicController : MonoBehaviour {
         get { return controlledPawn; }
     }
 
+    public bool IsControllingPawn
+    {
+        get { return controlledPawn != null; }
+    }
 
     public bool alwaysFaceMovingDirection;
 

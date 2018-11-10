@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour {
 
     public List<PlayerSpawnData> playersToSpawn;
 
-    public List<CustomerCounter> customerCounters;
+    public List<GameObject> customerCounters;
     private List<BasicController> npcControllers=new List<BasicController>();
 
     private void Awake()
@@ -49,7 +49,6 @@ public class GameManager : MonoBehaviour {
 
         foreach(PlayerSpawnData psd in playersToSpawn)
         {
-            // TODO : Change it to spawn at spawn locations
             BasicPawn pawn = ((GameObject)Instantiate(playerPrefab,psd.spawnTransform.position,Quaternion.identity)).GetComponent<BasicPawn>();
             if (!pawn)
                 throw new Exception("Add proper Pawn Prefab in game manager");
@@ -77,8 +76,9 @@ public class GameManager : MonoBehaviour {
             
         }
 
-        foreach(CustomerCounter counter in customerCounters)
+        foreach(GameObject counterObj in customerCounters)
         {
+            CustomerCounter counter = counterObj.GetComponentInChildren<CustomerCounter>();
             GameObject go = Instantiate(npcControllerPrefab);
             go.name = counter.name + "NpcController";
             BasicController controller = go.GetComponent<BasicController>();
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour {
         controller.PlayerState.addScore(newCost>0?0:newCost);
     }
 
-    private void customerLeft(float score,float timeRatio,List<Guid> playerIds)
+    private void customerLeft(float score,float timeRatio,List<Guid> playerIds, NpcController npcController)
     {
         if(playerIds.Count==0)
         {
@@ -138,6 +138,31 @@ public class GameManager : MonoBehaviour {
         // TODO : Spawn score pop in player location
     }
 
+    public static GameObject selectRandomUsableCounter(out int counterIndex)
+    {
+        int rem = manager.customerCounters.Count;
+        int currentIndex=0;
+        while (rem > 0)
+        {
+            currentIndex += UnityEngine.Random.Range(0, rem);
+            int index = currentIndex % manager.customerCounters.Count;
+            CustomerCounter counter = manager.customerCounters[index].GetComponentInChildren<CustomerCounter>();
+            if(counter.isCounterFree() && !manager.npcControllers[index].IsControllingPawn)
+            {
+                counterIndex = index;
+                return manager.customerCounters[index];
+            }
+            rem--;
+        }
+        counterIndex = -1;
+        return null;
+    }
+
+    public static BasicController getNpcController(int index)
+    {
+        return manager.npcControllers.Count > index ? manager.npcControllers[index] : null;
+    }
+
     // Use this for initialization
     void Start () {
 		
@@ -152,10 +177,5 @@ public class GameManager : MonoBehaviour {
     {
         if (trashCan != null)
             trashCan.onItemTrashed -= itemTrashed;
-
-        foreach (CustomerCounter counter in customerCounters)
-        {
-            counter.onCustomerLeaving -= customerLeft;
-        }
     }
 }
