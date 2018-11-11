@@ -42,6 +42,8 @@ public class Stove : RestrictedUsageItem
 
     private Player currentLockedPlayer;
 
+    private bool isBeingUsed = false;
+
     void Start()
     {
         if (saladCanvas == null)
@@ -58,11 +60,12 @@ public class Stove : RestrictedUsageItem
         preparingVegData = null;
         ((PlayerController)currentLockedPlayer.controller).setInputActive(true);
         currentLockedPlayer = null;
+        isBeingUsed = false;
     }
 
     public override bool canInteract(GameObject interactor)
     {
-        if (!base.canInteract(interactor))
+        if (!base.canInteract(interactor) || isBeingUsed)
             return false;
         Player player = interactor.GetComponent<Player>();
         if (player.PlayerInventory.hasAnyItem())
@@ -80,6 +83,7 @@ public class Stove : RestrictedUsageItem
 
     public override void interact(GameObject interactor)
     {
+        isBeingUsed = true;
         base.interact(interactor);
         Player player = interactor.GetComponent<Player>();
         currentLockedPlayer = player;
@@ -127,7 +131,7 @@ public class Stove : RestrictedUsageItem
         {
             if ((stoveStandingSpot.position - currentLockedPlayer.transform.position).magnitude > 0.02)
             {
-                currentLockedPlayer.transform.position += 2*(stoveStandingSpot.position - currentLockedPlayer.transform.position) 
+                currentLockedPlayer.transform.position += 2 * (stoveStandingSpot.position - currentLockedPlayer.transform.position)
                     * Time.deltaTime;
                 currentLockedPlayer.transform.rotation = stoveStandingSpot.rotation;
             }

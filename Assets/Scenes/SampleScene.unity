@@ -969,7 +969,7 @@ GameObject:
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!81 &519420029
 AudioListener:
@@ -1130,6 +1130,76 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4106091030979572, guid: bc36a72767d02b74baff0bbb9f432d7a,
     type: 2}
   m_PrefabInternal: {fileID: 703942231}
+--- !u!1 &599620956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 599620958}
+  - component: {fileID: 599620957}
+  - component: {fileID: 599620959}
+  m_Layer: 10
+  m_Name: CollectibleSpawnZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!61 &599620957
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 599620956}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.00000667572, y: -1.4952402}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 28.723536, y: 10.675074}
+  m_EdgeRadius: 0
+--- !u!4 &599620958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 599620956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &599620959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 599620956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20b1a2c4e07bba4d911af1aeb0b3195, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectiblesPrefab:
+  - {fileID: 1507744041477932, guid: 58367505c07247c43a695460ac4872fa, type: 2}
+  - {fileID: 1209061737673502, guid: 2efbaea713775bc4c87b8c8d207c23a3, type: 2}
+  - {fileID: 1675623482971026, guid: 2b5404f18f94f7a488e4623c529dfefc, type: 2}
 --- !u!1 &600804568
 GameObject:
   m_ObjectHideFlags: 0
@@ -2683,7 +2753,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1379449273
 MonoBehaviour:
@@ -2710,6 +2780,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b0f22eca19851264bb58dcb0f33ecd9a, type: 2}
   - {fileID: 11400000, guid: 0e161d987c5ad3946b52db234eef117d, type: 2}
   trashCan: {fileID: 1010080238}
+  collectibleSpawner: {fileID: 599620959}
   playersToSpawn:
   - playerName: Player1
     playerInputPrefix: P1
@@ -2760,7 +2831,7 @@ MonoBehaviour:
   maxScoreMultiplier: 0.75
   minTimeMultiplier: 1.2
   maxTimeMultiplier: 1.8
-  spawnNpcInterval: 7
+  spawnNpcInterval: 15
 --- !u!1 &1381579211
 GameObject:
   m_ObjectHideFlags: 0
@@ -2775,7 +2846,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1381579213
 MonoBehaviour:

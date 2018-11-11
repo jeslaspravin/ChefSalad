@@ -53,6 +53,8 @@ public class Inventory : MonoBehaviour {
 
     public bool hasAnyVegetables()
     {
+        if (!hasAnyItem())
+            return false;
         if (Vegetables.isRawVegetable(peekNextItem()))
             return true;
         foreach(int item in getItemsInArray())
@@ -65,6 +67,8 @@ public class Inventory : MonoBehaviour {
 
     public bool hasAnySalad()
     {
+        if (!hasAnyItem())
+            return false;
         if (!Vegetables.isRawVegetable(peekNextItem()))
             return true;
         foreach (int item in getItemsInArray())

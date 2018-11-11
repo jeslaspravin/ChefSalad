@@ -13,6 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VegetableData
   vegetableMask: 2
   vegTexture: {fileID: 21300034, guid: 44fae03c08194c245ae9e3a61d2de555, type: 3}
-  preparationTime: 2
+  preparationTime: 4
   scoreCostFactor: 0.3
   scoreReward: 0.9

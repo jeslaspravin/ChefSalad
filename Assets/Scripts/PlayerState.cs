@@ -15,7 +15,9 @@ public class PlayerState : MonoBehaviour {
 
     private float currentMovementSpeed;
 
-    private int playerScore = 0;
+    private float currentSpeedBuff = 0;
+
+    private float playerScore = 0;
 
     struct SpeedBuff
     {
@@ -42,20 +44,10 @@ public class PlayerState : MonoBehaviour {
 
     public float CurrentMovementSpeed
     {
-        get { return currentMovementSpeed+getSpeedBuffAmt(); }
+        get { return currentMovementSpeed+currentSpeedBuff; }
     }
 
-    private float getSpeedBuffAmt()
-    {
-        float buffVal = 0;
-        foreach (SpeedBuff buff in buffs)
-        {
-            buffVal += buff.timeLeft>0?buff.buffVal:0;
-        }
-        return Mathf.Clamp(buffVal, -speedBuffSaturationPt, speedBuffSaturationPt);
-    }
-
-    public int PlayerScore
+    public float PlayerScore
     {
         get { return playerScore; }
     }
@@ -65,16 +57,6 @@ public class PlayerState : MonoBehaviour {
         currentMovementSpeed = initialMovementSpeed;
     }
 
-    // Use this for initialization
-    void Start () {
-        InvokeRepeating("cleanBuffs", 5, 5);
-	}
-
-    protected void cleanBuffs()
-    {
-        buffs.RemoveAll((SpeedBuff buff) => { return buff.timeLeft <= 0; });
-    }
-	
 	// Update is called once per frame
 	void Update () {
         timeConsumed += Time.deltaTime;
@@ -84,6 +66,14 @@ public class PlayerState : MonoBehaviour {
             sb.timeLeft -= Time.deltaTime;
             buffs[i] = sb;
         }
+        buffs.RemoveAll((SpeedBuff buff) => {
+            if(buff.timeLeft <= 0)
+            {
+                currentSpeedBuff -= buff.buffVal;
+                return true;
+            }
+            return false;
+        });
     }
     
     public void addTime(float timeToAdd)
@@ -91,7 +81,7 @@ public class PlayerState : MonoBehaviour {
         timeConsumed -= timeToAdd;
     }
 
-    public void addScore(int scoreToAdd)
+    public void addScore(float scoreToAdd)
     {
         playerScore += scoreToAdd;
     }
@@ -99,6 +89,7 @@ public class PlayerState : MonoBehaviour {
     public void addSpeedBuff(float buff,float duration)
     {
         buffs.Add(new SpeedBuff(buff, duration));
+        currentSpeedBuff = Mathf.Clamp(currentSpeedBuff+buff, -speedBuffSaturationPt, speedBuffSaturationPt);
     }
 
 }

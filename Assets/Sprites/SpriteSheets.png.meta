@@ -93,7 +93,7 @@ TextureImporter:
         serializedVersion: 2
         x: 3
         y: 251
-        width: 251
+        width: 246
         height: 254
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -111,13 +111,13 @@ TextureImporter:
       name: SpriteSheets_1
       rect:
         serializedVersion: 2
-        x: 251
+        x: 254
         y: 253
-        width: 254
-        height: 258
+        width: 249
+        height: 255
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 3, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0

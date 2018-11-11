@@ -45,7 +45,7 @@ public class PlayerHudScript : MonoBehaviour {
 	void Update () {
 		if(playerState != null)
         {
-            scoreTextBox.text = playerState.PlayerScore.ToString();
+            scoreTextBox.text = playerState.PlayerScore.ToString("0.00");
             timeTextBox.text = playerState.TimeLeft.ToString();
         }
 	}

@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
 
     public TrashCan trashCan;
 
+    public CollectibleSpawner collectibleSpawner;
+
     public static GameManager manager;
     
     private Dictionary<Guid, BasicController> playersList=new Dictionary<Guid, BasicController>();
@@ -41,7 +43,10 @@ public class GameManager : MonoBehaviour {
     private void Awake()
     {
         if (manager != null)
-            Destroy(this);
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         manager = this;
 
@@ -94,7 +99,7 @@ public class GameManager : MonoBehaviour {
 
     private void itemTrashed(Guid guid,float cost)
     {
-        int newCost = (int)-cost;
+        float newCost = -cost;
 #if GAME_DEBUG
         Debug.Log(guid.ToString() + " Cost "+ newCost);
 #endif
@@ -115,9 +120,9 @@ public class GameManager : MonoBehaviour {
         {
             // Successfully served case
             BasicController controller = playersList[playerIds[0]];
-            if(timeRatio>=0.7)
+            if(timeRatio<=0.7f)
             {
-                // TODO : Spawn collectible to player
+                collectibleSpawner.spawnCollectible(playerIds[0]);
             }
             pushScoreToPlayer(score, controller);
         }else
@@ -134,7 +139,7 @@ public class GameManager : MonoBehaviour {
     private void pushScoreToPlayer(float score,BasicController controller)
     {
         PlayerController playerController = (PlayerController)controller;
-        playerController.PlayerState.addScore((int)score);
+        playerController.PlayerState.addScore(score);
         // TODO : Spawn score pop in player location
     }
 
