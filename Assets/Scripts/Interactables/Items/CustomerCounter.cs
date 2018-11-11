@@ -116,7 +116,7 @@ public class CustomerCounter : UsableItem {
                 if ((itemMask & 1) > 0)
                 {
                     int veg = (int)Mathf.Pow(2, i);
-                    VegetableData vegData = GameManager.getVegetableData(veg);
+                    VegetableData vegData = ChefSaladManager.getVegetableData(veg);
                     scoreOnSuccess += vegData.Reward;
                     penaltyOnFailure += vegData.Penalty;
                     saladCanvas.addItem(vegData);

@@ -77,7 +77,7 @@ public class PlayerHudScript : MonoBehaviour {
             {
                 GameObject go = Instantiate(vegItemIconPrefab);
                 SaladIngredientCanvasScript saladIngredient = go.GetComponent<SaladIngredientCanvasScript>();
-                saladIngredient.itemImageSprite.sprite = GameManager.getVegetableData(item).vegTexture;
+                saladIngredient.itemImageSprite.sprite = ChefSaladManager.getVegetableData(item).vegTexture;
                 go.transform.SetParent(inventoryPanel.transform);
             }
             else
@@ -91,7 +91,7 @@ public class PlayerHudScript : MonoBehaviour {
                     if((itemMask & 1)>0)
                     {
                         int veg = (int)Mathf.Pow(2, i);
-                        saladCanvas.addItem(GameManager.getVegetableData(veg));
+                        saladCanvas.addItem(ChefSaladManager.getVegetableData(veg));
                     }
                     itemMask >>= 1;
                 }

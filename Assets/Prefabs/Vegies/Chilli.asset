@@ -8,9 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 7438eaaff9953d548ba05e533aaf60ee, type: 3}
   m_Name: Chilli
-  m_EditorClassIdentifier: Assembly-CSharp::VegetableData
+  m_EditorClassIdentifier: 
   vegetableMask: 32
   vegTexture: {fileID: 21300010, guid: 44fae03c08194c245ae9e3a61d2de555, type: 3}
   preparationTime: 2.5

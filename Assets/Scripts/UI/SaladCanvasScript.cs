@@ -65,6 +65,18 @@ public class SaladCanvasScript : MonoBehaviour {
         }
     }
 
+    void OnDestroy()
+    {
+        while(items !=null && items.Count>0)
+        {
+            SaladIngredientCanvasScript ingredient= items.Dequeue();
+            if(ingredient != null)
+            {
+                Destroy(ingredient.gameObject);
+            }
+        }
+    }
+
     public bool addItem(VegetableData vegData)
     {
         if (items.Count == 0)

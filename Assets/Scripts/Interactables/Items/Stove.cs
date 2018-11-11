@@ -122,7 +122,7 @@ public class Stove : RestrictedUsageItem
 
         veg = currentLockedPlayer.PlayerInventory.getNextItem();
         currentStack |= (int)Vegies.oneItemSaladHandle;
-        preparingVegData = GameManager.getVegetableData(veg);
+        preparingVegData = ChefSaladManager.getVegetableData(veg);
         prepareTimeLeft = preparingVegData.preparationTime;
                     
         yield return new WaitForEndOfFrame();
@@ -149,7 +149,7 @@ public class Stove : RestrictedUsageItem
                         break;
                     }
                     veg = currentLockedPlayer.PlayerInventory.getNextItem();
-                    preparingVegData = GameManager.getVegetableData(veg);
+                    preparingVegData = ChefSaladManager.getVegetableData(veg);
                     prepareTimeLeft = preparingVegData.preparationTime;                    
                 }
                 else
@@ -174,7 +174,7 @@ public class Stove : RestrictedUsageItem
         if(ingredientPreparedEvent!= null)
             ingredientPreparedEvent.Invoke(vegMask, currentStack);
 
-        saladCanvas.addItem(GameManager.getVegetableData(vegMask));
+        saladCanvas.addItem(ChefSaladManager.getVegetableData(vegMask));
     }
 
     private void saladPickedUp()

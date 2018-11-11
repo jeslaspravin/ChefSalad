@@ -22,7 +22,7 @@ public class TrashCan : UsableItem
         int item=player.PlayerInventory.getNextItem();
         if(Vegetables.isRawVegetable(item))
         {
-            VegetableData vegData = GameManager.getVegetableData(item);
+            VegetableData vegData = ChefSaladManager.getVegetableData(item);
             if(onItemTrashed!=null)
             {
                 onItemTrashed.Invoke(player.GetId, vegData.Penalty);
@@ -36,7 +36,7 @@ public class TrashCan : UsableItem
                 if ((itemMask & 1) > 0)
                 {
                     int veg = (int)Mathf.Pow(2, i);
-                    VegetableData vegData = GameManager.getVegetableData(veg);
+                    VegetableData vegData = ChefSaladManager.getVegetableData(veg);
                     cost += vegData.Penalty;
                 }
                 itemMask >>= 1;

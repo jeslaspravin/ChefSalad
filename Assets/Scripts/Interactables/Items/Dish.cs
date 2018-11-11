@@ -32,7 +32,7 @@ public class Dish : RestrictedUsageItem {
             if(veg != 0)
             {
                 vegetable = veg;
-                vegetableSprite.sprite = GameManager.getVegetableData(veg).vegTexture;
+                vegetableSprite.sprite = ChefSaladManager.getVegetableData(veg).vegTexture;
             }
         }
         else

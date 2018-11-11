@@ -14,8 +14,8 @@ public class CustomerManager : MonoBehaviour {
     public float minScoreMultiplier=0.3f;
     public float maxScoreMultiplier=0.75f;
 
-    public float minTimeMultiplier=1.2f;
-    public float maxTimeMultiplier=1.8f;
+    public float minFailureTimeMultiplier=1.2f;
+    public float maxFailureTimeMultiplier=1.8f;
 
     // In seconds
     public float spawnNpcInterval=7;    
@@ -50,14 +50,14 @@ public class CustomerManager : MonoBehaviour {
     private void createCustomer()
     {
         int index = -1;
-        GameObject counter=GameManager.selectRandomUsableCounter(out index);
+        GameObject counter=ChefSaladManager.selectRandomUsableCounter(out index);
         if (counter == null)
             return;
 
 
         counter.GetComponentInChildren<CustomerCounter>().onCustomerLeaving += onNpcReturning;
 
-        NpcController controller=(NpcController)GameManager.getNpcController(index);
+        NpcController controller=(NpcController)ChefSaladManager.getNpcController(index);
 
         NpcPawn pawn = npcsAvailable.Dequeue();
 
@@ -66,7 +66,7 @@ public class CustomerManager : MonoBehaviour {
         controller.MoveTo = new Vector3(counter.transform.position.x, counter.transform.position.y, pawn.transform.position.z);
         controller.IsMobile = true;
         controller.counterTransform = counter.transform;
-        controller.attributes.failureTimeMultiplier = UnityEngine.Random.Range(minTimeMultiplier, maxTimeMultiplier);
+        controller.attributes.failureTimeMultiplier = UnityEngine.Random.Range(minFailureTimeMultiplier, maxFailureTimeMultiplier);
         controller.attributes.scoreMultiplier = UnityEngine.Random.Range(minScoreMultiplier, maxScoreMultiplier);
         controller.attributes.maxWaitTime = 0;
 
@@ -84,7 +84,7 @@ public class CustomerManager : MonoBehaviour {
                 if((choosen & salad) == 0)
                 {
                     salad |= choosen;
-                    vegData=GameManager.getVegetableData(choosen);
+                    vegData=ChefSaladManager.getVegetableData(choosen);
                     controller.attributes.maxWaitTime += (int)(vegData.preparationTime + (vegData.preparationTime * 4f));
                 }
                 else
@@ -105,7 +105,7 @@ public class CustomerManager : MonoBehaviour {
                 pow++;
                 choosen= (int)Mathf.Pow(2, pow % (int)Vegies.count);
             }
-            vegData = GameManager.getVegetableData(choosen);
+            vegData = ChefSaladManager.getVegetableData(choosen);
             controller.attributes.maxWaitTime += (int)(vegData.preparationTime + (vegData.preparationTime * 4f));
             salad |= choosen;
         }

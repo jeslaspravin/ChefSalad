@@ -79,6 +79,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4f70e3b7517824a9c617b945883d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialTimerDuration: 300
+  initialTimerDuration: 180
   initialMovementSpeed: 10
   speedBuffSaturationPt: 10
