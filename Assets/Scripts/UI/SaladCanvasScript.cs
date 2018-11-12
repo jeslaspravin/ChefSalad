@@ -38,7 +38,7 @@ public class SaladCanvasScript : MonoBehaviour {
     {
         if (items.Count > 0 || (itemsContainerWidget != null && itemsContainerWidget.transform.childCount > 0))
             return;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < ChefSaladManager.MAX_INGREDIENT_COUNT; i++)
         {
             GameObject go = Instantiate(itemWidgetPrefab);
             items.Enqueue(go.GetComponent<SaladIngredientCanvasScript>());

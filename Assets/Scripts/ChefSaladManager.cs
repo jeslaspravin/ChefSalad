@@ -51,6 +51,7 @@ public class ChefSaladManager : MonoBehaviour {
     private List<ScoreCardData> scordCards = null;
 
     private string HIGHSCORE_SAVE_PATH;
+    public const int MAX_INGREDIENT_COUNT = 3;
 
     private void Awake()
     {

@@ -35,6 +35,7 @@ public class Stove : RestrictedUsageItem
     public SaladCanvasScript saladCanvas;
 
     private int currentStack=0;
+    private int currentIngredientCount = 0;
 
     private float prepareTimeLeft=0;
 
@@ -88,7 +89,11 @@ public class Stove : RestrictedUsageItem
         Player player = interactor.GetComponent<Player>();
         currentLockedPlayer = player;
 
-        if (currentLockedPlayer.PlayerInventory.hasAnyItem())
+        /*
+         *If current Ingredient count is less than max ingredient allowed count and player has vegetable then
+         *start cooking else pickup the salad
+         */
+        if (currentLockedPlayer.PlayerInventory.hasAnyItem() && currentIngredientCount < ChefSaladManager.MAX_INGREDIENT_COUNT)
         {
             StartCoroutine(startCooking());
         }
@@ -97,6 +102,7 @@ public class Stove : RestrictedUsageItem
             currentLockedPlayer.PlayerInventory.addItem(currentStack);
             saladPickedUp();
             currentStack = 0;
+            currentIngredientCount = 0;
             resetData();
         }
     }
@@ -143,8 +149,8 @@ public class Stove : RestrictedUsageItem
                 {
                     veg = currentLockedPlayer.PlayerInventory.peekNextItem();
 
-                    // if next ingredient is already added then stop cooking
-                    if ((currentStack & veg) != 0)
+                    // if next ingredient is already added then stop cooking or if salad still has space to add ingredient
+                    if ((currentStack & veg) != 0 || currentIngredientCount >= ChefSaladManager.MAX_INGREDIENT_COUNT)
                     {
                         break;
                     }
@@ -168,6 +174,7 @@ public class Stove : RestrictedUsageItem
     private void ingredientPrepared(int vegMask)
     {
         currentStack |= vegMask;
+        currentIngredientCount++;
 #if GAME_DEBUG
         Debug.Log("Chopped Vegetable " + vegMask + " Salad " + currentStack);
 #endif

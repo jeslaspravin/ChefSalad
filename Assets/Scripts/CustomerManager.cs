@@ -70,7 +70,7 @@ public class CustomerManager : MonoBehaviour {
         controller.attributes.scoreMultiplier = UnityEngine.Random.Range(minScoreMultiplier, maxScoreMultiplier);
         controller.attributes.maxWaitTime = 0;
 
-        int noOfIngredient = UnityEngine.Random.Range(1, 3);
+        int noOfIngredient = UnityEngine.Random.Range(1, ChefSaladManager.MAX_INGREDIENT_COUNT);
         int salad = 0;
         for(int i = 0,trial = 0;i<noOfIngredient;i++,trial=0)
         {

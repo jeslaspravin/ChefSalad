@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224771610373593240}
   - component: {fileID: 212576132765648114}
   - component: {fileID: 70305027619682046}
+  - component: {fileID: 114058437519029990}
   m_Layer: 9
   m_Name: TrashCan
   m_TagString: Untagged
@@ -43,6 +44,19 @@ CapsuleCollider2D:
   m_Offset: {x: -0.000005465932, y: 0}
   m_Size: {x: 2.060001, y: 2.4800012}
   m_Direction: 0
+--- !u!114 &114058437519029990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1878677834294958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67c26e4ea7debb47bd7439153323ed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &212576132765648114
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -96,7 +110,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1878677834294958}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -1.9}
   m_LocalScale: {x: 0.072738245, y: 1, z: 0.18213}
   m_Children: []
   m_Father: {fileID: 0}
