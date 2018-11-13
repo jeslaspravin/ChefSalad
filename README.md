@@ -35,3 +35,4 @@
   * Right now all the interaction are automatic and trigger based so after preparing salad player has to reenter the trigger to collect salad automatically,This might suit some players. So based on feed back another layer of interaction needs to be added to let player control what they pickup and what they don't.
   *	Most of the UI related,NPC pawn spawning is pooled but collectibles spawning are not pooled,Have to make those spawning with object pooling as well.
   *	Now pause,unpause and save load systems are in ChefSaladManager,This should be made into seperate module if requirement for those similar feature increases.
+  * Create a proper buffs and effects framework so that it works generically and can be useful to extend with many more collectibles.
