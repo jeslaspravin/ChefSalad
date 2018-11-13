@@ -5,6 +5,7 @@
   The goal of the game is serve the cutomers with the salad of their requested vegetables as ingredients before the customer loss their patience and leave the restaurant.
   
 # Gameplay :
+  * Controls W,A,S,D for Player 1,Arrow keys for Player 2.
   * Player has vegetable tables in both edges of level from where they can pick vegetables that are needed for preparing salad.
   * Each player will have a timer that when runs out player will not be able to serve any more customers.
   * Each player on serving a customer will be awarded points based on ingredients of the salad and slightly based on customer mood(So it depends on customer too).
