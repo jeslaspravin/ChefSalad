@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Time collectible class
+/// <seealso cref="CollectibleItem"/>
+/// </summary>
 public class TimeCollectible : CollectibleItem {
 
     public int minTimeToAdd=20;

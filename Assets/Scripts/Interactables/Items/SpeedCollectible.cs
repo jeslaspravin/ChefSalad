@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Speed buff collectible class
+/// <seealso cref="CollectibleItem"/>
+/// </summary>
 public class SpeedCollectible : CollectibleItem {
 
     public float minDuration = 15;

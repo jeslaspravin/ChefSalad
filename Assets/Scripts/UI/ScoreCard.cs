@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Score card data class that will be serialized to get previous game scores.
+/// </summary>
 [System.Serializable]
 public class ScoreCardData : IComparable
 {
@@ -30,18 +33,25 @@ public class ScoreCardData : IComparable
     }
 }
 
+/// <summary>
+/// Score card script that lets us to easily set necessary value to UI elements.
+/// </summary>
 public class ScoreCard : MonoBehaviour {
     public Text rankText;
     public Text playerNameText;
     public Text scoreText;
 
+    /// <summary>
+    /// Color of Background of bgImage that will be used if this scorecard represents score from current game.
+    /// <para>This distinguishes scores so player can clearly see if current score is good enough.
+    /// </summary>
     public Color currentScoreColor;
 
     public Image bgImage;
 
     void Start()
     {
-        if(bgImage!=null)
+        if(bgImage==null)
             bgImage = gameObject.GetComponent<Image>();
     }
 

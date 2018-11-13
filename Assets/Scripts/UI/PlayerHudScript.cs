@@ -4,19 +4,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Player HUD script
+/// </summary>
 public class PlayerHudScript : MonoBehaviour {
 
+    /// <summary>
+    /// Player state reference
+    /// </summary>
     private PlayerState playerState;
 
+    /// <summary>
+    /// Player inventory reference.
+    /// </summary>
     private Inventory playerInventory;
 
+    /// <summary>
+    /// Prefab that will be used to display salad item in HUD.
+    /// </summary>
     public GameObject saladItemIconPrefab;
+    /// <summary>
+    /// Prefab that will be used to display vegetable item in HUD
+    /// </summary>
     public GameObject vegItemIconPrefab;
 
+    /// <summary>
+    /// Panel to which salad or vegetable display gameobject will be attached to.
+    /// </summary>
     public GameObject inventoryPanel;
+
     public Text scoreTextBox;
     public Text timeTextBox;
 
+    /// <summary>
+    /// Whether to reverse the inventory.This is used for displaying player inventory for player in right as it is tentative for looking 
+    /// for order of inventory item from margin of screen.
+    /// </summary>
     public bool reverseInventory=false;
 
     public PlayerState PlayerState
@@ -56,6 +79,10 @@ public class PlayerHudScript : MonoBehaviour {
             playerInventory.onInventoryChanged -= inventoryRefresh;
         }
     }
+
+    /// <summary>
+    /// Refreshes and recreates inventory data of player
+    /// </summary>
     public void inventoryRefresh()
     {
         if (playerInventory == null)

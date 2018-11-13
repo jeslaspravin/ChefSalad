@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Trashcan interactable item
+/// </summary>
 public class TrashCan : UsableItem
 {
-
+    // Delegate for On item trash event.
     public delegate void ItemTrashedDelegate(Guid guid,float cost);
 
+    /// <summary>
+    /// Event that gets invoked when item gets trashed by any of player so listeners can process with those data.
+    /// </summary>
     public event ItemTrashedDelegate onItemTrashed;
 
     public override bool canInteract(GameObject interactor)
@@ -20,6 +26,7 @@ public class TrashCan : UsableItem
     {
         Player player = interactor.GetComponent<Player>();
         int item=player.PlayerInventory.getNextItem();
+        // if is vegetable then cost can be determined from vegetable data
         if(Vegetables.isRawVegetable(item))
         {
             VegetableData vegData = ChefSaladManager.getVegetableData(item);
@@ -27,7 +34,7 @@ public class TrashCan : UsableItem
             {
                 onItemTrashed.Invoke(player.GetId, vegData.Penalty);
             }
-        }else
+        }else // if it is salad we get each individual vegetable by bit shifting vegetable integer and finding its vegetable data
         {
             float cost = 0;
             int itemMask = item;

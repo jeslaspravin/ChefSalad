@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// NPC's attribute will be set by Customer Manager
+/// </summary>
 [System.Serializable]
 public struct NpcAttributes
 {
@@ -13,12 +16,24 @@ public struct NpcAttributes
     public float failureTimeMultiplier;
 }
 
+/// <summary>
+/// NPC controller for this game mode
+/// </summary>
 public class NpcController : BasicController {
 
+    /// <summary>
+    /// Counter that this Controller belongs to.
+    /// </summary>
     public Transform counterTransform;
 
+    /// <summary>
+    /// Target location that controller will focus on moving the NPC pawn to.
+    /// </summary>
     private Vector3 moveToLocation;
 
+    /// <summary>
+    /// Determine whether NPC controller should move the NPC pawn.
+    /// </summary>
     private bool bIsMobile=false;
 
     public bool IsMobile
@@ -32,6 +47,9 @@ public class NpcController : BasicController {
         set { moveToLocation = value; }
     }
 
+    /// <summary>
+    /// NPC's salad requirement and waiting info.
+    /// </summary>
     public NpcAttributes attributes;
 
     // Use this for initialization
@@ -41,6 +59,7 @@ public class NpcController : BasicController {
 	
 	// Update is called once per frame
 	public override void Update () {
+        // Adding movement to NPC.
         if(controlledPawn != null)
         {
             Vector3 direction = (moveToLocation - controlledPawn.transform.position).normalized;

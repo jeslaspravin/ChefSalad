@@ -2,16 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Basic Controller used to extend both NPC controller and player controller
+/// </summary>
 public class BasicController : MonoBehaviour {
 
+    /// <summary>
+    /// Pawn that this controller is controlling
+    /// </summary>
     protected BasicPawn controlledPawn;
 
-    // Will be used by NPC controller only
+    /// <summary>
+    /// Speed of Pawn controlled by this controller
+    /// <para>Will be used by NPC controller only</para>
+    /// </summary>
     public float movementSpeed;
 
+    /// <summary>
+    /// Current frame's movement velocity to be added to controlling pawn.
+    /// <seealso cref="processMovement"/>
+    /// </summary>
     private Vector3 currentMovementVelocity = Vector3.zero;
+    /// <summary>
+    /// Current frame's rotation to be added to controlling pawn.
+    /// <seealso cref="processMovement"/>
+    /// </summary>
     private Vector3 currentPendingRotation = Vector3.zero;
+
+    /// <summary>
+    /// Reference counting is used so that if multiple input is received for same frame and all needs to be pushed into processMovement.
+    /// </summary>
     private int moveRefCount = 0, rotRefCount = 0;
+
+    /// <summary>
+    /// Whether Pawn should be always facing in direction that it moves.
+    /// </summary>
+    public bool alwaysFaceMovingDirection;
 
     public BasicPawn GetControlledPawn
     {
@@ -23,8 +49,11 @@ public class BasicController : MonoBehaviour {
         get { return controlledPawn != null; }
     }
 
-    public bool alwaysFaceMovingDirection;
-
+    /// <summary>
+    /// Method used to take control of a pawn
+    /// <para>Don't forget to register for input event in case of PlayerController</para>
+    /// </summary>
+    /// <param name="pawn">Pawn that will be controlled</param>
     public virtual void controlPawn(BasicPawn pawn)
     {
         if(pawn.controller!=null)
@@ -35,6 +64,9 @@ public class BasicController : MonoBehaviour {
         controlledPawn = pawn;
     }
 
+    /// <summary>
+    /// Releases currently controlled pawn.
+    /// </summary>
     public virtual void releasePawn()
     {
         // Reset the last set simulation velocity before releasing
@@ -55,10 +87,18 @@ public class BasicController : MonoBehaviour {
         processMovement();
     }
 
+    /// <summary>
+    /// Method that provides Movement speed for currently controlling pawn.Can be overridden to change behavior.
+    /// </summary>
+    /// <returns>Movement speed</returns>
     public virtual float getMovementSpeed()
     {
         return movementSpeed;
     }
+
+    /// <summary>
+    /// Processes whatever movements that are pending for current frame
+    /// </summary>
     public void processMovement()
     {
         if (controlledPawn != null)

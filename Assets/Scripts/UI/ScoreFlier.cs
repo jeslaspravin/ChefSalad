@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Flier that gets spawned and flies of player when score gets added to player.
+/// </summary>
 public class ScoreFlier : MonoBehaviour {
 
 

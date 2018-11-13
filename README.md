@@ -30,5 +30,8 @@
 
 # Next Step :
   * Making player mobility zone unrestricted , Make camera zoom out so that player gets unrestricted feel and also level can be expanded however we want.
+  *	More visual feedback to player,Like showing angry customer so player know it too.
   * Make spawned special items color coded or in some way so that player can distinguise collectibles that belong to them.
   * Right now all the interaction are automatic and trigger based so after preparing salad player has to reenter the trigger to collect salad automatically,This might suit some players. So based on feed back another layer of interaction needs to be added to let player control what they pickup and what they don't.
+  *	Most of the UI related,NPC pawn spawning is pooled but collectibles spawning are not pooled,Have to make those spawning with object pooling as well.
+  *	Now pause,unpause and save load systems are in ChefSaladManager,This should be made into seperate module if requirement for those similar feature increases.

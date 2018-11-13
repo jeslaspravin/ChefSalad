@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Score collectible class
+/// <seealso cref="CollectibleItem"/>
+/// </summary>
 public class ScoreCollectible : CollectibleItem {
 
     public int minScoreToAdd=10;

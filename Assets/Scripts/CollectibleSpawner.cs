@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Spawner class that helps in spawning Collectibles for specific player.
+/// </summary>
 public class CollectibleSpawner : MonoBehaviour {
 
+    /// <summary>
+    /// Zone in which collectibles will be spawned.
+    /// </summary>
     private BoxCollider2D box;
     private Bounds spawnZone;
 
+    /// <summary>
+    /// List of collectible prefabs random one from that will be spawned when spawn is requested.
+    /// </summary>
     public List<GameObject> collectiblesPrefab;
     
 	// Use this for initialization
@@ -15,6 +24,11 @@ public class CollectibleSpawner : MonoBehaviour {
         spawnZone = box.bounds;
 	}
 
+    /// <summary>
+    /// Spawned function that takes Player's GUID to spawn collectible.
+    /// </summary>
+    /// <param name="withGuid">GUID of player to whom collectible is being spawned.</param>
+    /// <returns>Spawned collectible script object.</returns>
     public CollectibleItem spawnCollectible(System.Guid withGuid)
     {
         if (collectiblesPrefab.Count == 0)

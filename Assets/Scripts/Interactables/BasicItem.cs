@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Base class for all interactable item that implements interface InteractableInterface
+/// </summary>
 public class BasicItem : MonoBehaviour,InteractableInterface {
 
     public Color normalColor;

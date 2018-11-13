@@ -3,6 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Player's unique data
+/// </summary>
+/// <remarks>
+/// Not used in any of implementations.
+/// </remarks>
 public struct PlayerUData
 {
     public string playerName;
@@ -15,14 +21,27 @@ public struct PlayerUData
     }
 }
 
+/// <summary>
+/// Player Controller
+/// </summary>
 [RequireComponent(typeof(Inventory))]
 [RequireComponent(typeof(PlayerState))]
 public class PlayerController : BasicController {
 
+    /// <summary>
+    /// Input manager of this controller.
+    /// <para>Each player controller has one input manager</para>
+    /// </summary>
     private InputManager inputMngr;
 
+    /// <summary>
+    /// Inventory of Player
+    /// </summary>
     private Inventory playerInventory;
 
+    /// <summary>
+    /// State of player.
+    /// </summary>
     private PlayerState playerState;
 
     public PlayerState PlayerState
@@ -40,7 +59,16 @@ public class PlayerController : BasicController {
         get { return playerInventory; }
     }
 
+    /// <summary>
+    /// Name of player
+    /// </summary>
     public string playerName;
+
+    /// <summary>
+    /// Prefix that needs to be attached to input event name to listen to whether registering input to input manager.
+    /// <para>This is needed as name of input mapping will be same for all player from player pawn,this prefix
+    /// is the one that differentiate them in case of couch co-op</para>
+    /// </summary>
     private string playerInputPrefix;
 
 
@@ -50,6 +78,9 @@ public class PlayerController : BasicController {
         set { playerInputPrefix = value; }
     }
 
+    /// <summary>
+    /// Unique ID of this player controller or player
+    /// </summary>
     private Guid guid;
 
     public Guid GetID
@@ -99,6 +130,11 @@ public class PlayerController : BasicController {
         base.releasePawn();
     }
 
+    /// <summary>
+    /// Method that need to be called after taking control of pawn to start listening to controls of that pawn from input manager
+    /// <para>will be useful in later stage of project</para>
+    /// </summary>
+    /// <param name="inputManager">Input manager to pass in</param>
     public void setupInputs(InputManager inputManager)
     {
         if (inputMngr == null)

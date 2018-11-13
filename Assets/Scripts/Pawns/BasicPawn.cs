@@ -4,14 +4,28 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
+/// <summary>
+/// Base class for Player and NPC pawns
+/// </summary>
 [assembly: InternalsVisibleTo("BasicController")]
 [assembly: InternalsVisibleTo("BasicItem")]
 public class BasicPawn : MonoBehaviour {
 
+    /// <summary>
+    /// Reference to controller that controls this pawn
+    /// </summary>
     internal BasicController controller;
 
+    /// <summary>
+    /// Interactable Event trigger object that triggers event with an Interactable object enters its trigger 
+    /// and not trigger for anything else
+    /// <seealso cref="InteractableTriggerEvent"/>
+    /// </summary>
     private InteractableTriggerEvent interactableTrigger;
 
+    /// <summary>
+    /// Reference to any interactable that enters into the player interactable event trigger.
+    /// </summary>
     private InteractableInterface currentInteractable;
 
 	// Use this for initialization
@@ -34,13 +48,17 @@ public class BasicPawn : MonoBehaviour {
 
     protected virtual void onInteractableInRange(InteractableInterface interactable,Collider2D collider)
     {
-        if(currentInteractable == null && interactable.canInteract(gameObject))
+        // if the current interactable is null and new interactable is interactable do interact the interactable object
+        // Note : currently we are not using currentInteractable so it does not matters if we check null on that.
+        if (currentInteractable == null && interactable.canInteract(gameObject))
         {
             interactable.interact(gameObject);
         }
     }
     protected virtual void onInteractableOffRange(InteractableInterface interactable, Collider2D collider)
     {
+        // Reset current interactable
+        // Note : Does not matters too as not being used.
         if(currentInteractable != null)
         {
             currentInteractable = null;

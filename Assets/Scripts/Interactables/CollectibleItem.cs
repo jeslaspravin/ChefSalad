@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Collectible Items that will be spawned as reward for serving well to a player.
+/// <para>Collectible spawned for a player will not be able to be picked up by any other player.</para>
+/// </summary>
 public class CollectibleItem : RestrictedUsageItem {
     public override void interact(GameObject interactor)
     {
